@@ -1,118 +1,104 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+// Example to Get Device Information in React Native
+// https://aboutreact.com/react-native-device-info/
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+// import React in our code
+import React, {useState} from 'react';
+
+// import all the components we are going to use
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  SafeAreaView,
   View,
+  TouchableOpacity,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import DeviceInfoAsync from './pages/DeviceInfoAsync';
+import DeviceInfoConstants from './pages/DeviceInfoConstants';
+import DeviceInfoSync from './pages/DeviceInfoSync';
+import DeviceInfoHooks from './pages/DeviceInfoHooks';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const App = () => {
+  const [activeTab, setActiveTab] = useState('constant');
+  const [] = useState({});
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={styles.container}>
+      {activeTab === 'constant' ? (
+        <DeviceInfoConstants title="React Native Device Info - Constant Info" />
+      ) : activeTab === 'sync' ? (
+        <DeviceInfoSync title="React Native Device Info - Sync Info" />
+      ) : activeTab === 'async' ? (
+        <DeviceInfoAsync title="React Native Device Info - Device info Async" />
+      ) : activeTab === 'hooks' ? (
+        <DeviceInfoHooks title="React Native Device Info - Device info Hook" />
+      ) : null}
+
+      <View style={styles.tabBar}>
+        <TouchableOpacity
+          style={styles.tab}
+          onPress={() => setActiveTab('constant')}>
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'constant' && styles.boldText,
+            ]}>
+            Constant
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tab}
+          onPress={() => setActiveTab('sync')}>
+          <Text
+            style={[styles.tabText, activeTab === 'sync' && styles.boldText]}>
+            Sync
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tab}
+          onPress={() => setActiveTab('async')}>
+          <Text
+            style={[styles.tabText, activeTab === 'async' && styles.boldText]}>
+            Async
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tab}
+          onPress={() => setActiveTab('hooks')}>
+          <Text
+            style={[styles.tabText, activeTab === 'hooks' && styles.boldText]}>
+            Hooks
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
-}
+};
+export default App;
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  tabBar: {
+    flexDirection: 'row',
+    borderTopColor: '#333333',
+    borderTopWidth: 1,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  tab: {
+    height: 50,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  highlight: {
+  tabText: {
+    color: '#333333',
+  },
+  boldText: {
     fontWeight: '700',
   },
 });
-
-export default App;
